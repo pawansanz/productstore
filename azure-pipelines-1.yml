@@ -38,11 +38,15 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: PublishBuildArtifacts@1
+    - task: CopyFiles@2
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
+        Contents: |
+          mssql-config-map.yaml
+          mssql-deployment.yaml
+          mssql-pv.azure.yaml
+          mssql-pv.local.yaml
+          mssql-secret.yaml
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
